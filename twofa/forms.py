@@ -19,8 +19,8 @@ class LoginForm(FlaskForm):
     username = StringField("username", validators=[DataRequired()])
     password = PasswordField("password", validators=[DataRequired()])
 
-    def validate(self):
-        if not super().validate():
+    def validate(self, extra_validators=None):
+        if not super().validate(extra_validators):
             return False
         self.user = User.query.get(self.username.data)
         if not self.user or not self.user.check_password(self.password.data):
@@ -45,8 +45,8 @@ class RegistrationForm(FlaskForm):
         if not field.data.startswith("+"):
             field.data = "+" + field.data
 
-    def validate(self):
-        if not super().validate():
+    def validate(self, extra_validators=None):
+        if not super().validate(extra_validators):
             return False
         if self.password.data != self.confirm_password.data:
             self.errors["non_field"] = "Password and confirmation didn't match"
@@ -97,8 +97,8 @@ class PhoneVerificationForm(FlaskForm):
         if not field.data.startswith("+"):
             field.data = "+" + field.data
 
-    def validate(self):
-        if not super().validate():
+    def validate(self, extra_validators=None):
+        if not super().validate(extra_validators):
             return False
 
         phone_number = self.country_code.data + self.phone_number.data
